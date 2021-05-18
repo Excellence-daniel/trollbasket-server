@@ -3,8 +3,8 @@ const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
 const port = 4020
-// const config = require('./utils/config')[process.env.NODE_ENV || 'dev']
-const config = require('./utils/config')
+const config = require('./utils/config')[process.env.NODE_ENV || 'dev']
+// const config = require('./utils/config')
 const morgan = require('morgan')
 
 app.options('*', cors())

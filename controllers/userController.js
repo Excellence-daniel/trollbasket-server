@@ -1,6 +1,6 @@
 const userModel = require('../models/userModel')
 const jwt = require('jsonwebtoken')
-const config = require('../utils/config')
+const config = require('../utils/config')[process.env.NODE_ENV || 'dev']
 
 module.exports = {
   register: async (req, res) => {
