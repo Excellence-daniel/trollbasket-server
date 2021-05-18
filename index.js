@@ -24,7 +24,7 @@ app.use(morgan('dev'))
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-app.options('*', cors())
+// app.options('*', cors())
 app.use(cors())
 
 app.listen(process.env.PORT || port, () => {
