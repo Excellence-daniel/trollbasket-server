@@ -7,6 +7,9 @@ const port = 4020
 const config = require('./utils/config')
 const morgan = require('morgan')
 
+app.options('*', cors())
+app.use(cors())
+
 mongoose.set('useCreateIndex', true)
 mongoose.set('useUnifiedTopology', true)
 mongoose.set('useFindAndModify', false)
@@ -18,23 +21,22 @@ conn.on('error', function (err) {
   console.log('mongoose connection error:', err.message)
 })
 
-const userRoutes = require('./routes/users')
-
 app.use(morgan('dev'))
-
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-app.options('*', cors())
-app.use(cors())
 
 app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000') // update to match the domain you will make the request from
-  res.header(
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS')
+  res.setHeader('Access-Control-Allow-Credentials', 'true')
+  res.setHeader(
     'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept',
+    'x-access-token,X-Requested-With,Content-Type,Authorization,cache-control',
   )
   next()
 })
+
+const userRoutes = require('./routes/users')
 
 app.listen(process.env.PORT || port, () => {
   console.log('Server started work on ' + port)
