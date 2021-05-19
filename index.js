@@ -25,16 +25,19 @@ app.use(morgan('dev'))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS')
-  res.setHeader('Access-Control-Allow-Credentials', 'true')
-  res.setHeader(
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header(
     'Access-Control-Allow-Headers',
-    'x-access-token,X-Requested-With,Content-Type,Authorization,cache-control',
+    'Origin, X-Requested, Content-Type, Accept Authorization',
   )
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Methods', 'POST, PUT, PATCH, GET, DELETE')
+    return res.status(200).json({})
+  }
   next()
 })
+app.use(cors({ origin: '*', credentials: true }))
 
 const userRoutes = require('./routes/users')
 
